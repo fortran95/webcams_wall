@@ -7,7 +7,7 @@
       body {background: #000}
     </style>
     <script type="text/javascript" 
-            src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+            src="./jquery.js"></script>
     <script type="text/javascript">
       var monitors = {
         "Mt. Washburn #1": "http://www.nps.gov/webcams-yell/mtwashburn.jpg",
@@ -15,12 +15,14 @@
         "Old Faith #1"   : "http://www.nps.gov/webcams-yell/oldfaithvc.jpg",
         "Old Faith #2"   : "http://www.nps.gov/webcams-yell/oldfaith2.jpg",
         "Yellowstone Volcano Observatory": "http://volcanoes.usgs.gov/yvo/images/webcam/mobile1/current_small.jpg",
-        "Electric Peak"  : "http://www2.coolworks.com/webcams/electric-peak.jpg",
+        "Electric Peak"  : "http://www.coolworks.com/webcams/electric-peak.jpg",
       }
+    </script>
+    <script>
+      var monitorkeys = [];
+      $.each(monitors,function(name,value){monitorkeys.push(name)});
+
       $(document).ready(function(){
-        $('img').height('325').css({
-          border: '1px solid #F00',
-        });
         for(var i=0;i<6;i++){
           var newbox = $('<div>',{id: "monitor_" + i,
                                  }).css({border: '1px solid #F00',
@@ -34,18 +36,11 @@
           newbox.appendTo('body');
         }
         for(i=0;i<6;i++){
-          $('#monitor_' + i + ' img').attr('src',monitors[i]);
+          $('#monitor_' + i + ' img').attr('src',monitors[monitorkeys[i]]);
         }
       });
     </script>
   </head>
   <body>
-
-    <img id="washburn1"
-         src="http://www.nps.gov/webcams-yell/mtwashburn.jpg">
-    <img id="washburn2"
-         src="http://www.nps.gov/webcams-yell/washburn2.jpg">
-    <img id="oldfaith2"
-         src="http://www.nps.gov/webcams-yell/oldfaith2.jpg">
   </body>
 </html>
