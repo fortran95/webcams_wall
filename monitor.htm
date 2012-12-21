@@ -14,9 +14,11 @@
         "Old Faith #1"   : "http://www.nps.gov/webcams-yell/oldfaithvc.jpg",
         "Old Faith #2"   : "http://www.nps.gov/webcams-yell/oldfaith2.jpg",
         "Yellowstone Volcano Observatory": "http://volcanoes.usgs.gov/yvo/images/webcam/mobile1/current_small.jpg",
-        "Electric Peak"  : "http://www.coolworks.com/webcams/electric-peak.jpg",
+        //"Electric Peak"               : "http://www.coolworks.com/webcams/electric-peak.jpg",
+        "Mammoth Hot Springs"         : "http://www.nps.gov/webcams-yell/mammothcam2.jpg",
+        "Mammoth Hot Springs Terrace" : "http://www.nps.gov/webcams-yell/terrace.jpg",
       };
-      var slotsCount = 5;
+      var slotsCount = 6;
       var monitorkeys = [];
       $.each(monitors,function(name,value){monitorkeys.push(name)});
       var monitorsCount = monitorkeys.length;
@@ -27,7 +29,8 @@
       function allocate(slot,fillwith){
       	var finder = '#monitor_' + slot + ' ';
       	$(finder + 'div').html(monitorkeys[fillwith]);
-      	$(finder + 'img').attr('src',monitors[monitorkeys[fillwith]]);
+      	$(finder + 'img').removeAttr('src').attr('src','./loading.png');
+      	$(finder + 'img').attr('src',monitors[monitorkeys[fillwith]] + '?' + (new Date()).getTime() );
       }
       function setMonitor(){
       	allocate(tosetSlot,touseMonitor);
@@ -40,12 +43,16 @@
       $(document).ready(function(){
         for(var i=0;i<slotsCount;i++){
           var newbox = $('<div>',{id: "monitor_" + i,
-                                 }).css({border: '1px solid #F00',
-                                         display: 'inline-block',
+                                 }).css({'border'  : '1px solid #F00',
+                                         'display' : 'inline-block',
+                                         'padding' : '5px',
+                                         'spacing' : '5px',
                                          });
-          $('<div>').css({color: '#FFF',
+          $('<div>').css({'color'       : '#FFF',
+          	          'font-family' : 'arial',
+          	          'font-weight' : 'bold',
                          }).appendTo(newbox);
-          $('<img>',{
+          $('<img>',{'alt':'Loading',
                     }).css({height: 300,
                             width: 400,
                     }).appendTo(newbox);
@@ -55,7 +62,7 @@
         for(i=0;i<slotsCount;i++){
           setMonitor();
         }
-        setInterval("setMonitor()",3000);
+        setInterval("setMonitor()",5000);
       });
     </script>
   </head>
