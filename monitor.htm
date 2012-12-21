@@ -2,7 +2,6 @@
   <head>
     <title>Yellowstone Webcams Wall</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta http-equiv="refresh" content="10" />
     <style>
       body {background: #000}
     </style>
@@ -16,28 +15,47 @@
         "Old Faith #2"   : "http://www.nps.gov/webcams-yell/oldfaith2.jpg",
         "Yellowstone Volcano Observatory": "http://volcanoes.usgs.gov/yvo/images/webcam/mobile1/current_small.jpg",
         "Electric Peak"  : "http://www.coolworks.com/webcams/electric-peak.jpg",
-      }
-    </script>
-    <script>
+      };
+      var slotsCount = 5;
       var monitorkeys = [];
       $.each(monitors,function(name,value){monitorkeys.push(name)});
+      var monitorsCount = monitorkeys.length;
+    </script>
+    <script>
+      var tosetSlot=0, touseMonitor=0;
+
+      function allocate(slot,fillwith){
+      	var finder = '#monitor_' + slot + ' ';
+      	$(finder + 'div').html(monitorkeys[fillwith]);
+      	$(finder + 'img').attr('src',monitors[monitorkeys[fillwith]]);
+      }
+      function setMonitor(){
+      	allocate(tosetSlot,touseMonitor);
+      	tosetSlot++;
+      	touseMonitor++;
+      	if(tosetSlot >= slotsCount) tosetSlot = 0;
+      	if(touseMonitor >= monitorsCount) touseMonitor = 0;
+      }
 
       $(document).ready(function(){
-        for(var i=0;i<6;i++){
+        for(var i=0;i<slotsCount;i++){
           var newbox = $('<div>',{id: "monitor_" + i,
                                  }).css({border: '1px solid #F00',
-                                         display: 'block',
+                                         display: 'inline-block',
                                          });
-          $('<div>').appendTo(newbox);
+          $('<div>').css({color: '#FFF',
+                         }).appendTo(newbox);
           $('<img>',{
-                    }).css({height: 325,
-
+                    }).css({height: 300,
+                            width: 400,
                     }).appendTo(newbox);
           newbox.appendTo('body');
         }
-        for(i=0;i<6;i++){
-          $('#monitor_' + i + ' img').attr('src',monitors[monitorkeys[i]]);
+
+        for(i=0;i<slotsCount;i++){
+          setMonitor();
         }
+        setInterval("setMonitor()",3000);
       });
     </script>
   </head>
